@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A Survey on Generative Modeling with Limited Data, Few Shots, and Zero Shot">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Survey on Generative Modeling with Limited Data, Few Shots, and Zero Shot</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"></script>
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Petit Formal Script">
+
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    tr, td {
+      border: none;
+      padding: 8px;
+      text-align: left;
+      font-size: 13px
+    }
+
+    tr:first-child td:first-child {
+      border-top:  2px solid black !important;
+    }
+    tr:last-child{
+      border-bottom:  2px solid black !important;
+    }
+
+    .thick-top-border {
+      border-top: 2px solid black !important;
+    }
+
+    .no-top-border {
+      border-top: none !important;
+    }
+    .circle-solid::before {
+      content: "\25CF";
+      font-size: 17px
+    }
+    .circle-shallow::before {
+      content: "\25CB";
+      font-size: 17px
+    }
+    .table-head-size {
+      font-size: 17px;
+    }
+    .table-row-head-size {
+      font-size: 14px;
+    }
+<!--    Hide the image row by default-->
+    .image-row {
+        display: none !important;
+    }
+    .image-cell {
+        width: 91.4% !important;
+    }
+  </style>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">A Survey on Generative Modeling
+          with Limited Data, Few Shots, and Zero Shot
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://miladabd.github.io/">Milad Abdollahzadeh</a><sup>*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=wJskd84AAAAJ&hl=en&oi=sra">Guimeng Liu</a><sup>*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=DgnZKiQAAAAJ&hl=en">Touba Malekzadeh</a><sup>†</sup>,
+            </span>
+          </br>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=JhyGETcAAAAJ&hl=en">Christopher T. H. Teo</a><sup>†</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://keshik6.github.io/">Keshigeyan Chandrasegaran</a><sup>†</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://sites.google.com/site/mancheung0407/">Ngai-Man Cheung</a><sup>‡</sup>,
+            </span>
+          </div>
+
+          <p>
+            * Equal first-author contribution &nbsp&nbsp † Equal second-author contribution &nbsp&nbsp ‡ Corresponding Author
+          </p>
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Singapore University of Technology and Design</span>
+          </div>
+
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2307.14397"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/sutd-visual-computing-group/awesome-generative-modeling-under-data-constraints"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+             <span class="link-block">
+                <a href="https://keshik6.github.io/survey_visualizations/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-edit"></i>
+                  </span>
+                  <span>Interactive Sankey</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Summary. -->
+    <h2 class="title is-3">Summary</h2>
+    <div class="content has-text-justified">
+      <p>
+        In machine learning, generative modeling aims to learn to generate new data statistically
+        similar to the training data distribution. In this paper, we survey learning generative models
+        under limited data, few shots, and zero shot, referred to as Generative Modeling under
+        Data Constraint (GM-DC). This is an important topic when data acquisition is challenging,
+        e.g. healthcare. We discuss background, challenges, and propose two taxonomies: one on
+        GM-DC tasks and another on GM-DC approaches. Importantly, we study interactions between
+        different GM-DC tasks and approaches. Furthermore, we highlight research gaps, research trends,
+        and potential avenues for future exploration.
+      </p>
+
+      <p>
+        <i>On this webpage, we provide a high-level view of different aspects of our survey.
+        For a more detailed and technical discussion, please see
+          <a href="https://arxiv.org/abs/2307.14397">our paper</a>.
+        </i>
+      </p>
+    </div>
+    <!--/ Summary. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- GM-DC Reseach Landscape Overview. -->
+    <h2 class="title is-3">GM-DC Reseach Landscape Overview</h2>
+    <div class="content has-text-justified">
+      <p>
+        The following Sankey diagram provides an illustration of the research landscape of the GMDC covering
+        the works proposed in GM-DC and the interaction between the GM-DC Tasks and approaches.
+        More details on the definition of the <a href="#Task Taxonomy">tasks</a>
+        and <a href="#Approaches Taxonomy">approaches</a> can be found in the respective sections of the proposed taxonomy.
+      </p>
+      <p>
+        An interactive version of this Sankey diagram can be found
+        <a href="https://keshik6.github.io/survey_visualizations/">here</a>.
+      </p>
+      <p>
+        <img src="./static/images/sankey_final_version.png" alt="Sankey">
+      </p>
+    </div>
+    <!--/ GM-DC Reseach Landscape Overview. -->
+  </div>
+</section>
+
+
+<!--Trends, Technical Evolution, and Statistics-->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Trends, Technical Evolution, and Statistics</h2>
+    <div class="content has-text-justified">
+      <p>
+        Our comprehensive analysis of the GM-DC research landscape coupled with a meticulous analysis
+        of each individual work, enables us to extract trends, technical evolution, and detailed statistics
+        in the literature.
+      </p>
+<!--      Overall publications statistics-->
+      <p>
+        <b>The overall publication statistics</b> in GM-DC illustrated below show an increasing interest
+        in the research community in this topic. For example, the number of published works until
+        late July of 2023 is more than the works published in the whole of 2022.
+      </p>
+      <div style="border: 1px solid #FFFFFF; padding: 20px;">
+        <img src="./static/images/Figure1.png" alt="Fig1">
+        <div>
+          <p style="font-size: 14px">
+            Overall publications statistics in GM-DC.
+            <b> GM-DC Publications (Left):</b> GM-DC publication trends indicate rising interest in this area.
+            We remark that the previous survey only covers ~27% of publications discussed in our survey.
+            <b> Publication Venues (Right):</b> The distribution of publications in major machine learning
+            and computer vision venues, other venues, and arXiv.
+          </p>
+        </div>
+      </div>
+
+      <br>
+<!--        The detailed statistics of the publications-->
+      <p>
+        <b>The detailed statistics of the publications in GM-DC</b> are illustrated below.
+        The definition of the <a href="#Task Taxonomy">tasks</a>
+        and <a href="#Approaches Taxonomy">approaches</a> can be found in the respective sections of the proposed taxonomy.
+      </p>
+      <div  style="border: 1px solid #FFFFFF; padding: 20px;">
+        <img src="./static/images/Figure2.png" alt="Fig2">
+        <div>
+          <p style="font-size: 14px">
+            Analysis of publications in GM-DC. <b>Data Constraints:</b> Different types of data constraints
+            studied in GM-DC. <b>Models:</b> Different types of models are studied including Generative Adversarial Network (GAN),
+            Diffusion Model (DM), and Variational Auto-Encoder (VAE). <b>Tasks:</b> Different GM-DC tasks
+            that are studied; See <a href="#Task Taxonomy">tasks taxonomy table</a> for details
+            on task definitions in our proposed task taxonomy. <b>Approaches:</b> Different approaches
+            that are applied for addressing GM-DC; More details on our proposed taxonomy of approaches
+            can be found in <a href="#Approaches Taxonomy">approaches taxonomy table</a>.
+          </p>
+        </div>
+      </div>
+
+      <br>
+
+      <p>
+        <b>Generative Models.</b> Our study shows that three types of generative models are used in GM-DC:
+        <ul>
+          <li>Generative Adversarial Network (GAN)</li>
+          <li>Diffusion Model (DM)</li>
+          <li>Variational Auto-Encoder (VAE), and very recently its variant Vector-Quantized VAE (VQ-VAE)</li>
+        </ul>
+      </p>
+
+      <br>
+
+      <p>
+        <b>Data Constraints.</b> In the majority of the GM-DC works, three setups for data constraints can be observed:
+        <ul>
+          <li>Limited Data (LD): 50 to 5000 training samples (images) are given</li>
+          <li>Few-Shot (FS): 1 to 50 training samples are given</li>
+          <li>Zero-Shot (ZS): no training sample is given and usually a text prompt is available to define the target domain</li>
+        </ul>
+        Note that these ranges are the typically used values as there are no fixed definitions in the literature.
+      </p>
+
+      <br>
+<!--      Timeline-->
+      <p>
+        <b>Timeline.</b> The figure below illustrates the timeline when the first work for a GM-DC task or
+        approach is introduced based on our proposed taxonomies.
+      </p>
+      <div>
+        <img src="./static/images/TimeLine.png" alt="TimeLine">
+      </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Task Taxonomy. -->
+    <h2 id="Task Taxonomy" class="title is-3">Proposed Task Taxonomy</h2>
+    <div class="content has-text-justified">
+      <p>
+        We propose a taxonomy of 8 different tasks based on the attributes of different GM-DC tasks
+        addressed in the literature. The task definition, an example for each task, and a task illustration
+        are given in the table below. Please check
+        <a href="https://arxiv.org/abs/2307.14397">our paper</a> for more detail.
+      </p>
+    <!--/ Task Taxonomy. -->
+      <table>
+        <caption class="has-text-justified" style="margin-bottom: 20px">
+          <b>Our proposed taxonomy for tasks in GM-DC.</b> For each task, we extract their key characteristics.
+          [Attributes] <b>C</b>: <u>C</u>onditional generation, <b> P</b>: <u>P</u>re-trained generator given,
+          <b> I</b>: <u>I</u>mages (as input), <b> TP</b>: <u>T</u>ext-<u>P</u>rompt (as input),
+          <b> X</b>: <u>X</u>(Cross)-domain adaptation; [Data Constraint] <b> LD</b>: <u>L</u>imited-<u>D</u>ata,
+          <b> FS</b>: <u>F</u>ew-<u>S</u>hot, <b> ZS</b>: <u>Z</u>ero-<u>S</u>hot.
+          <span class="circle-shallow"></span>/<span class="circle-solid"></span> denotes the absence/presence, respectively.
+        </caption>
+
+<!--        table body-->
+        <tr style="border-top: 2px solid black">
+          <td class="has-text-centered table-head-size " style="border-bottom: 1px solid black">
+            <b>Task</b>
+          </td>
+          <td>
+<!--            placeholder-->
+          </td>
+          <td class="has-text-centered table-head-size" style="border-bottom: 1px solid black" colspan="5">
+            <b>Attributes</b>
+          </td>
+          <td><!--            placeholder--></td>
+          <td class="has-text-centered table-head-size" style="border-bottom: 1px solid black" colspan="3">
+            <b>Data Constraint</b>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="has-text-centered table-row-head-size"><!--            placeholder--></td>
+          <td class="has-text-centered table-row-head-size"><!--            placeholder--></td>
+          <td class="has-text-centered table-row-head-size"><b>C</b></td>
+          <td class="has-text-centered table-row-head-size"><b>P</b></td>
+          <td class="has-text-centered table-row-head-size"><b>I</b></td>
+          <td class="has-text-centered table-row-head-size"><b>TP</b></td>
+          <td class="has-text-centered table-row-head-size"><b>X</b></td>
+          <td class="has-text-centered table-row-head-size"><!--            placeholder--></td>
+          <td class="has-text-centered table-row-head-size"><b>LD</b></td>
+          <td class="has-text-centered table-row-head-size"><b>FS</b></td>
+          <td class="has-text-centered table-row-head-size"><b>ZS</b></td>
+        </tr>
+
+<!--        uGM-1-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>uGM-1</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+<!--        a placeholder to maintain the cell width before and after the hidden image show up-->
+<!--        <tr style="height:0; visibility:collapse;">-->
+<!--          <td style="width:100%;" colspan="9"></td> &lt;!&ndash; Make the width equal to or larger than your image &ndash;&gt;-->
+<!--        </tr>-->
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given $K$ samples from a domain <span style="font-family: Petit Formal Script;"><b>D</b></span>, learn to generate diverse and high-quality
+            samples from <span style="font-family: Petit Formal Script;"><b>D</b></span>.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp ADA learns a StyleGAN2 using 1k images from AFHQ-Dog.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row has-text-centered", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/uGM-1.png" alt="uGM-1">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        uGM-2-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>uGM-2</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given a pre-trained generator on a source domain
+            <span style="font-family: Petit Formal Script;"><b>D</b></span>$_s$
+            and $K$ samples from a target domain <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$, learn to generate diverse and
+            high-quality samples from <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp CDC adapts a pre-trained GAN on FFHQ to Sketches using 10 samples.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row has-text-centered", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/uGM-2.png" alt="uGM-2">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+
+        <!--        uGM-3-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>uGM-3</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given a pre-trained generator on a
+            source domain <span style="font-family: Petit Formal Script;"><b>D</b></span>$_s$
+            and a text prompt describing a target domain <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$, learn
+            to generate diverse and high-quality samples from <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp NADA adapts pre-trained GAN on FFHQ to the
+            painting domain using <i>`Fernando Botero Painting'</i> as input.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/uGM-3.png" alt="uGM-3">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        cGM-1-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>cGM-1</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given $K$ samples with class labels from a domain
+            <span style="font-family: Petit Formal Script;"><b>D</b></span>,
+            learn to generate diverse and high-quality samples conditioning
+            on the class labels from <span style="font-family: Petit Formal Script;"><b>D</b></span>.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp CbC  trains conditional generator on 20 classes
+            of ImageNet Carnivores using 100 images per class.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/cGM-1.png" alt="cGM-1">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        cGM-2-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>cGM-2</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given a pre-trained generator on the seen classes $C_{seen}$
+            of a domain <span style="font-family: Petit Formal Script;"><b>D</b></span> and $K$ samples with class labels from unseen
+            classes $C_{unseen}$ of <span style="font-family: Petit Formal Script;"><b>D</b></span>, learn to generate diverse and
+            high-quality samples conditioning on the class labels for $C_{unseen}$ from <span style="font-family: Petit Formal Script;"><b>D</b></span>.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp LofGAN learns from 85 classes of Flowers to generate
+            images for an unseen class with only 3 samples.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/cGM-2.png" alt="cGM-2">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        cGM-3-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>cGM-3</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given a pre-trained generator on a source domain <span style="font-family: Petit Formal Script;"><b>D</b></span>$_s$
+            and $K$ samples with class labels from a target domain <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$ , learn to generate diverse
+            and high-quality samples conditioning on the class labels from <span style="font-family: Petit Formal Script;"><b>D</b></span>$_t$.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp VPT adapts a pre-trained conditional generator on
+            ImageNet to Places365 with 500 images per class.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/cGM-3.png" alt="cGM-3">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        IGM-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>IGM</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given $K$ samples (usually $K$=1) and assuming rich internal
+            distribution for patches within these samples, learn to generate diverse and
+            high-quality samples with the same internal patch distribution.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp SinDDM trains a generator using a single image
+            of Marina Bay Sands, and generates variants of it.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/IGM.png" alt="IGM">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+<!--        SGM-->
+        <tr style="border-top: 1px solid black; border-bottom: 1px solid black">
+          <td class="has-text-centered table-row-head-size" rowspan="5" colspan="2">
+            <br><b>SGM</b>
+          </td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><!--            placeholder--></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-solid"></span></b></td>
+          <td class="has-text-centered"><b><span class="circle-shallow"></span></b></td>
+        </tr>
+
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Description:</b> &nbsp Given a pre-trained generator, $K$ samples
+            of a particular subject, and a text prompt, learn to generate diverse
+            and high-quality samples containing the same subject.
+          </td>
+        </tr>
+        <tr>
+          <td class="table-row-head-size" colspan="9">
+            <b>Example:</b> &nbsp DreamBooth trains a  generator using 4 images of
+            a particular backpack and adapts it with a text-prompt to be in the <i>`grand canyon'</i>.
+          </td>
+        </tr>
+        <tr>
+          <td class="has-text-centered table-row-head-size" style="width:100%;" colspan="9">
+            <button class="toggle-btn"><b>Task Illustration</b></button>
+          </td>
+        </tr>
+        <tr class="image-row", style="display: none">
+            <td class="has-text-centered image-cell" colspan="9">
+              <div>
+                <img style="text-align: center; max-width: 60%" src="./static/images/Task_for_project_page/SGM.png" alt="SGM">
+              </div>
+            </td>
+        </tr>
+        <tr class="has-text-centered">
+<!--        last row placeholder-->
+        </tr>
+
+      </table>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Approaches Taxonomy. -->
+    <h2 id="Approaches Taxonomy" class="title is-3">Proposed Approaches Taxonomy</h2>
+    <div class="content has-text-justified">
+      <p>
+        We propose 7 categories of approaches for GM-DC including Transfer Learning, Data Augmentaion,
+        Network Architectures, Multi-Task Objectives, Exploiting Frequency Components, Meta-Learning,
+        and Modeling Internal Patch Distribution. For more details on each category, and the
+        comprehensive review of these works, please check our paper. The list of papers including the
+        link and code for each paper, can also be found in our
+        <a href="https://github.com/sutd-visual-computing-group/awesome-generative-modeling-under-data-constraints">
+          GitHub Repository for GM-DC
+        </a>.
+      </p>
+<!--      Approaches taxonomy table -->
+      <table>
+        <caption class="has-text-justified" style="margin-bottom: 20px">
+          <b>Our proposed taxonomy for approaches in GM-DC.</b> For each  approach, the addressed GM-DC tasks
+          (see Tab. 2 for task definitions) and the data constraints are indicated.
+          A detailed list of methods under each sub-category is also tabulated (some methods are under multiple categories).
+          <span class="circle-shallow"></span>/<span class="circle-solid"></span> denotes the absence/presence of the tasks commonly addressed by each approach, and
+          the data constraints usually considered:
+          <b>LD</b>: <u>L</u>imited-<u>D</u>ata, <b>FS</b>: <u>F</u>ew-<u>S</u>hot and <b>ZS</b>: <u>Z</u>ero-<u>S</u>hot.
+        </caption>
+
+<!--        Transfer learning-->
+        <tr>
+          <td class="has-text-centered" colspan="4">
+            <div style="background-color: #E8E8E8;">
+              <b class="table-head-size">Transfer Learning</b> (Sec. 4.1)
+            </div>
+          </td>
+        </tr>
+
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width: 10%; vertical-align: middle;">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+<!--            <span style="background-color: pink;">Adjusting margin</span> -->
+            Improve GM-DC on target domain by knowledge of a generator pre-trained on source domain (with numerous and diverse samples).
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width: 10%; vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td style="vertical-align: middle">
+            uGM-1 <span class="circle-shallow"></span> &nbsp uGM-2 <span class="circle-solid"></span> &nbsp
+            uGM-3 <span class="circle-solid"></span> &nbsp cGM-1 <span class="circle-shallow"></span> &nbsp
+            cGM-2 <span class="circle-solid"></span> &nbsp cGM-3 <span class="circle-solid"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-solid"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="width: 15%; vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-solid"></span> &nbsp
+            FS <span class="circle-solid"></span> &nbsp
+            ZS <span class="circle-solid"></span>
+          </td>
+        </tr>
+
+<!--         <tr>-->
+<!--         <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Improve GM-DC on target domain by knowledge of a generator pre-trained on source domain (with numerous and diverse samples).-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-shallow"></span> &nbsp&nbsp uGM-2 <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-solid"></span> &nbsp&nbsp cGM-1 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-solid"></span> &nbsp&nbsp cGM-3 <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-solid"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-solid"></span> &nbsp&nbsp ZS <span class="circle-solid"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Regularizer-based Fine-Tuning:</b> Explore regularizers to preserve source generators' knowledge.
+            <br>
+            <i>Methods:</i> &nbsp TGAN, BSA, FreezeD, EWC, CDC, cGANTransfer, W<sup>3</sup>, C<sup>3</sup>, DCL, RSSA, fairTL, GenOS\citep{zhang2022generalizedoneshot}
+            , SVD, 
+            D<sup>3</sup>-TGAN, JoJoGAN, 
+            KDFSIG, CtlGAN, 
+            ICGAN, 
+            MaskD, 
+            F<sup>3</sup>,
+            ICGAN,
+            DDPM-PA,
+            DWSC, 
+            CSR,
+            ProSC,
+            DOGAN, 
+            AnyDoor, 
+            SmoothSim, 
+            TAN, 
+            FPTGAN, 
+            CLCR, 
+            FastFaceGAN, 
+            FDDC, 
+            StyleDomain, 
+            DomainExpansion, 
+            CVD-GAN, 
+            Def-DINO, 
+            HDA, 
+            FAGAN, 
+            SSCR, 
+            DPMs-ANT, 
+            SACP,
+            DATID-3D
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Latent Space:</b> Explore latent space of source generator to identify suitable knowledge for adaptation.
+            <br>
+            <i>Methods:</i> &nbsp MineGAN, MineGAN++,
+            GenDA,
+            TF<sup>2</sup>,
+            LCL,
+            SoLAD,
+            WeditGAN,
+            CRDI,
+            SiSTA, MultiDiffusion,
+            DiS
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>3) Modulation:</b> Leverage trainable modulation weights on top of frozen weights of the source generator.
+            <br>
+            <i>Methods:</i> &nbsp AdaFMGAN, GAN-Memory, CAM-GAN, AdAM, DynaGAN, HyperDomainNet, NICE, A<sup>3</sup>FT, LFS-GAN, OKM, CFTS-GAN, HyperGAN-CLIP, DPH, DoRM, Mix-of-Show, Orthogonal Adaptation, DreamMatcher, PortraitBooth, DisenDiff, RealCustom
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>4) Natural Language-guided:</b> Use the feedback of vision-language models to adapt the source generator with text prompts.
+            <br>
+            <i>Methods:</i> &nbsp StyleGAN-NADA, MTG, HyperDomainNet, DiFa, OneCLIP, IPL, SVL, AIR, StyleGAN-Fusion, UniHDA,
+            \textsc{ITI-Gen},
+            FairQueue, 
+            SINE, DreamBooth,
+            Custom Diffusion, Textual-Inversion, SpecialistDiffusion,
+            BLIP-Diffusion, AblateConcept, StyO, HyperGAN-CLIP, DPH, ELITE, E4T, MoMA, SSR-Encoder, MultiGen, MasterWeaver, Lego, CGR, DreamBlend, Cross Initialization, SAG, ZipLoRA, RealCustom, PALP, InstantBooth, IDAdapter, Domain gallery, LogoSticker, ProSpect, Dreambooth-CL, AnomalyDiffusion, ComFusion, SuDe, LFS-Diffusion, L<sup>2</sup>DM, Omg, TFIC, MagiCapture, Mix-of-Show, Orthogonal Adaptation, DBLoRA, HybirdBooth, T2IRL, HyperDreamBooth, FastComposer, PortraitBooth, DreamMatcher, DisenDiff, CII, DETEX
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>5) Adaptation-Aware:</b> Preserve the source generator's knowledge that is important to the adaptation task.
+            <br>
+            <i>Methods:</i> &nbsp AdAM, RICK, OKM
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>6) Prompt Tuning:</b> Freeze the source generator and add/ generate visual prompts to guide generation for the target domain.
+            <br>
+            <i>Methods:</i> &nbsp VPT
+          </td>
+        </tr>
+
+        <!--        Data Augmentation-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Data Augmentation</b> (Sec. 4.2)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+            Improve GM-DC by increasing coverage of the data distribution by applying various transformations on the given samples.
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td>
+            uGM-1 <span class="circle-solid"></span> &nbsp uGM-2 <span class="circle-shallow"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-shallow"></span> &nbsp
+            cGM-2 <span class="circle-shallow"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-solid"></span> &nbsp
+            FS <span class="circle-shallow"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Improve GM-DC by increasing coverage of the data distribution by applying various transformations on the given samples.-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-solid"></span> &nbsp&nbsp uGM-2 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-shallow"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-shallow"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Image-Level Augmentation:</b> Apply data transformations on image space.
+            <br>
+            <i>Methods:</i> &nbsp ADA, DiffAugment, IAG, DiffusionGAN, bCR, CR-GAN, APA, PatchDiffusion,
+            ANDA,
+            DANI,
+            AugSelf-GAN
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Feature-Level Augmentation:</b> Apply data transformations on the feature space.
+            <br>
+            <i>Methods:</i> &nbsp AdvAug, AFI, FSMR
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>3) Transformation-Driven Design:</b> Leverage the information of individual transformations to design an efficient learning mechanism.
+            <br>
+            <i>Methods:</i> &nbsp DAG, SSGAN-LA
+          </td>
+        </tr>
+
+        <!--        Network Architectures-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Network Architectures</b> (Sec. 4.3)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+            Design specific architecture for the generator to improve its learning under data constraints.
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td style="vertical-align: middle">
+            uGM-1 <span class="circle-solid"></span> &nbsp uGM-2 <span class="circle-shallow"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-solid"></span> &nbsp
+            cGM-2 <span class="circle-shallow"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-solid"></span> &nbsp
+            FS <span class="circle-shallow"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Design specific architecture for the generator to improve its learning under data constraints.-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-solid"></span> &nbsp&nbsp uGM-2 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-shallow"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-shallow"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Feature Enhancement:</b> Design additional modules/ layers to enhance/retain the feature maps of the generator for better generative modeling.
+            <br>
+            <i>Methods:</i> &nbsp FastGAN,
+            cF-GAN,
+            MoCA, DFSGAN,
+            DM-GAN,
+            FewConv,
+            SCHA-VAE
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Ensemble Large Pre-trained Vision Models:</b> Improve architecture by integrating pre-trained vision models to enable more accurate GM-DC.
+            <br>
+            <i>Methods:</i> &nbsp ProjectedGAN,
+            SPGAN,
+            Vision-aided GAN,
+            P2D,
+            DISP
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>3) Dynamic Network Architecture:</b> Improve generative learning with limited data by evolving the generator architecture during training.
+            <br>
+            <i>Methods:</i> &nbsp CbC, PYP, DynamicD, AdvAug, Re-GAN, RG-GAN, AutoInfoGAN
+          </td>
+        </tr>
+
+        <!--        Multi-Task Objectives-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Multi-Task Objectives</b> (Sec. 4.4)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+            Introduce additional task(s) to extract generalizable representations that are useful for all tasks, to reduce overfitting under data constraints.
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td style="vertical-align: middle">
+            uGM-1 <span class="circle-solid"></span> &nbsp uGM-2 <span class="circle-solid"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-solid"></span> &nbsp
+            cGM-2 <span class="circle-shallow"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-solid"></span> &nbsp
+            FS <span class="circle-solid"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Introduce additional task(s) to extract generalizable representations that are useful for all tasks, to reduce overfitting under data constraints.-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-solid"></span> &nbsp&nbsp uGM-2 <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-shallow"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-solid"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Regularizer:</b> Add an additional task objective as a regularizer to prevent an undesirable behaviour during training generative model.
+            <br>
+            <i>Methods:</i> &nbsp LeCam, DigGAN, MDL, RegLA
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Contrastive Learning:</b> Introduce a pretext task to enhance the learning process of the generative model.
+            <br>
+            <i>Methods:</i> &nbsp InsGen, FakeCLR, DCL, C<sup>3</sup>, ctlGAN, IAG, CML-GAN, RCL
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>3) Masking:</b> Mask a part of the image/ information to increase the task hardness and prevent learning the trivial solutions.
+            <br>
+            <i>Methods:</i> &nbsp MaskedGAN, MaskD, DMD
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>4) Knowledge Distillation:</b> Add a task objective that enforces the generator to follow a strong teache.
+            <br>
+            <i>Methods:</i> &nbsp KD-DLGAN, KDFSIG, BK-SDM
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>5) Prototype Learning:</b> Emphasize learning prototypes for samples/ concepts within the distribution as an additional task objective.
+            <br>
+            <i>Methods:</i> &nbsp ProtoGAN, MoCA
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>6) Other Multi-Task Objectives:</b> Apply other types of multi-task objectives including co-training, patch-level learning, and diffusion.
+            <br>
+            <i>Methods:</i> &nbsp GenCo, PatchDiffusion, AnyRes-GAN , DiffusionGAN, D2C, AdaptiveIMLE, FSDM
+          </td>
+        </tr>
+
+        <!--        Exploiting Frequency Components-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Exploiting Frequency Components</b> (Sec. 4.5)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td  colspan="3" style="vertical-align: middle">
+            Exploit frequency components to improve learning the generative model by reducing frequency bias.
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td>
+            uGM-1 <span class="circle-solid"></span> &nbsp uGM-2 <span class="circle-shallow"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-shallow"></span> &nbsp
+            cGM-2 <span class="circle-solid"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-solid"></span> &nbsp
+            FS <span class="circle-solid"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Exploit frequency components to improve learning the generative model by reducing frequency bias.-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-solid"></span> &nbsp&nbsp uGM-2 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-solid"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-solid"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-solid"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <i>Methods:</i> &nbsp FreGAN, WaveGAN, MaskedGAN, Gen-co, FAGAN, SDTM
+          </td>
+        </tr>
+
+        <!--        Meta-Learning-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Meta-Learning</b> (Sec. 4.6)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+            Learn meta-knowledge from seen classes to improve generator learning for unseen classes.
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td style="vertical-align: middle">
+            uGM-1 <span class="circle-shallow"></span> &nbsp uGM-2 <span class="circle-shallow"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-shallow"></span> &nbsp
+            cGM-2 <span class="circle-solid"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-shallow"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-shallow"></span> &nbsp
+            FS <span class="circle-solid"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Learn meta-knowledge from seen classes to improve generator learning for unseen classes.-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-shallow"></span> &nbsp&nbsp uGM-2 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-solid"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-shallow"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-solid"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Optimization:</b> Learn initialization weights from the seen classes as meta-knowledge to enable quick adaptation to unseen classes.
+            <br>
+            <i>Methods:</i> &nbsp GMN, FIGR, Dawson, FAML, CML-GAN
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Transformation:</b> Learn sample transformations from the seen classes as meta-knowledge and use them for sample generation for unseen classes.
+            <br>
+            <i>Methods:</i> &nbsp DAGAN, DeltaGAN, Disco, AGE, SAGE, HAE, LSO, TAGE, CDM, ISSA, MFH
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>3) Fusion:</b> Learn to fuse the samples of the seen classes as meta-knowledge, and apply learned meta-knowledge to generation for unseen classes.
+            <br>
+            <i>Methods:</i> &nbsp MatchingGAN, F2GAN, LofGAN, WaveGAN, AMMGAN, MVSA-GAN, EqGAN, SDTM, SMR-CSL, SAGAN, F2DGAN
+          </td>
+        </tr>
+
+
+        <!--        Modeling Internal Patch Distribution-->
+        <tr>
+          <td class="has-text-centered thick-top-border" colspan="4">
+            <div style="background-color: #E8E8E8;">
+            <b class="table-head-size">Modeling Internal Patch Distribution</b> (Sec. 4.7)
+            </div>
+          </td>
+        </tr>
+
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="width:10px vertical-align: middle">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" style="vertical-align: middle">
+            Learn the internal patch distribution within one image to generate diverse samples with the same visual content (patch distribution).
+          </td>
+        </tr>
+        <tr style='padding=3px'>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Task:</b>
+          </td>
+          <td style="vertical-align: middle">
+            uGM-1 <span class="circle-shallow"></span> &nbsp uGM-2 <span class="circle-shallow"></span> &nbsp
+            uGM-3 <span class="circle-shallow"></span> &nbsp cGM-1 <span class="circle-shallow"></span> &nbsp
+            cGM-2 <span class="circle-shallow"></span> &nbsp cGM-3 <span class="circle-shallow"></span> &nbsp
+            IGM <span class="circle-solid"></span> &nbsp SGM <span class="circle-shallow"></span>
+          </td>
+          <td class="has-text-centered table-row-head-size" style="vertical-align: middle">
+            <b>Data constraint:</b>
+          </td>
+          <td style="vertical-align: middle">
+            LD <span class="circle-shallow"></span> &nbsp
+            FS <span class="circle-solid"></span> &nbsp
+            ZS <span class="circle-shallow"></span>
+          </td>
+        </tr>
+<!--        <tr>-->
+<!--          <td class="has-text-centered table-row-head-size" style="width:10px">-->
+<!--            <b>Description:</b>-->
+<!--            <br>-->
+<!--            <b>Task:</b>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            Learn the internal patch distribution within one image to generate diverse samples with the same visual content (patch distribution).-->
+<!--            <br>-->
+<!--            uGM-1 <span class="circle-shallow"></span> &nbsp&nbsp uGM-2 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            uGM-3 <span class="circle-shallow"></span> &nbsp&nbsp cGM-1 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            cGM-2 <span class="circle-shallow"></span> &nbsp&nbsp cGM-3 <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            IGM <span class="circle-solid"></span> &nbsp&nbsp SGM <span class="circle-shallow"></span>-->
+<!--            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-->
+<!--            <b>Data constraint:</b> &nbsp&nbsp LD <span class="circle-shallow"></span> &nbsp&nbsp-->
+<!--            FS <span class="circle-solid"></span> &nbsp&nbsp ZS <span class="circle-shallow"></span>-->
+<!--          </td>-->
+<!--        </tr>-->
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>1) Progressive Training:</b> Train a generative model progressively to learn the patch distribution at different scales/ noise levels.
+            <br>
+            <i>Methods:</i> &nbsp SinDiffusion, SinDDM, Deff-GAN, BlendGAN, SinGAN, ConSinGAN, CCASinGAN, PromptSDM, LatentSDM, SD-SGAN, SA-SinGAN, ExSinGAN, TcGAN, RecurrentSinGAN
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="content has-text-justified">
+            <b>2) Non-progressive Training:</b> Train a generative model on the same scale/ noise but with changes to the model’s architecture.
+            <br>
+            <i>Methods:</i> &nbsp SinFusion, One-Shot GAN, PetsGAN
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    <!--/ Task Taxonomy. -->
+  </div>
+</section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{abdollahzadeh2023survey,
+  author    = {Milad Abdollahzadeh
+              and Touba Malekzadeh
+              and Christopher T. H. Teo
+              and Keshigeyan Chandrasegaran
+              and Guimeng Liu
+              and Ngai-Man Cheung
+                },
+  title     = {A Survey on Generative Modeling with Limited Data, Few Shots, and Zero Shot},
+  year={2023},
+  eprint={2307.14397},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+
+}</code></pre>
+  </div>
+</section>
+
+<div class="column has-text-centered">
+<a href="https://info.flagcounter.com/jUHK"><img src="https://s01.flagcounter.com/count2/jUHK/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_30/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    renderMathInElement(
+        document.body,
+        {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\[", right: "\\]", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false}
+            ]
+        }
+    );
+  </script>
+  <script>
+        $('.toggle-btn').click(function() {
+            $(this).closest('tr').next('.image-row').toggle();
+        });
+    </script>
+
+</body>
+</html>
